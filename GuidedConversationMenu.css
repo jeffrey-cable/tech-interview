@@ -1,0 +1,326 @@
+/** REGISTER ICON FONT - Material Icons ***/
+@font-face {
+    font-family: 'Material Icons';
+    font-style: normal;
+    font-weight: 400;
+    src: url(../../Resources/fonts/MaterialIcons-Regular.eot); /* For IE6-8 */
+    src: local('Material Icons'), local('MaterialIcons-Regular'), url(../../Resources/fonts/MaterialIcons-Regular.woff2) format('woff2'), url(../../Resources/fonts/MaterialIcons-Regular.woff) format('woff'), url(../../Resources/fonts/MaterialIcons-Regular.ttf) format('truetype');
+}
+
+
+:root {
+    --text-primary: rgba(0,0,0,0.87);
+    --text-secondary: rgba(0,0,0,0.54);
+    --text-disabled: rgba(0,0,0,0.38);
+    --tyl-amber: #FFC108;
+}
+
+/*#region main css*/
+
+html {
+    width: 100%;
+    height: 100%;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+}
+
+body {
+    height: 100%;
+    font-family: "Helvetica","Arial",sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 20px;
+    margin: 0;
+    width: 100%;
+    min-height: 100%;
+}
+
+.contentContainer {
+    display: flex;
+    flex-flow: column;
+    height: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    width: 55%;
+    min-width: 800px;
+}
+
+.pageHeader {
+    /*text-align: center;*/
+    background: white;
+    padding: 10px;
+    padding-top: 30px;
+    font-size: 24px;
+    line-height: 32px;
+    color: var(--text-primary);
+}
+
+.pageSubHeader {
+    /*text-align: center;*/
+    background: white;
+    padding: 10px;
+    font-size: 16px;
+    line-height: 24px;
+    color: var(--text-secondary);
+}
+
+/*#endregion main css*/
+
+/*#region root table css*/
+
+.menuTable {
+    /*margin-left: auto;
+    margin-right: auto;*/
+    width: 100%;
+    border-collapse: collapse;
+}
+
+    /*.menuTable > .menuRow {
+        
+    }*/
+
+    .menuTable > .menuRow > .titleColumn > .menuTitle {
+        font-size: 16px;
+        font-weight: 600;
+    }
+
+    .menuTable > .menuRow > .descColumn > .menuDesc {
+        font-size: 13px;
+    }
+
+    .menuTable > .menuRow > .statusColumn > .menuStatus {
+        font-size: 12px;
+    }
+
+    .menuTable > .menuRow > .iconColumn > .menuIcon {
+        font-size: 30px;
+    }
+
+    .menuTable > .menuRow.active > .activeIconColumn {
+        opacity: 1;
+    }
+    
+    .menuTable > .menuRow.active > .iconColumn > .menuIcon {
+        color: var(--text-primary);
+    }
+
+    .menuTable > .menuRow.active > .titleColumn > .menuTitle {
+        color: var(--text-primary);
+    }
+
+    .menuTable > .menuRow.active {
+        border: none;
+    }
+
+        .menuTable > .menuRow.active > td {
+            background: rgba(0,0,0,0.05);
+            /*position: relative;
+            top: 5px;*/
+        }
+
+.menuTable > tr:first-child {
+    border-top: none;
+}
+
+.menuTable > tr:last-child {
+    border-bottom: none;
+}
+
+/*#endregion root table css*/
+
+/*#region sub table css*/
+.menuSubTableContainer {
+    padding: 0px 0px !important;
+}
+
+.menuSubTable {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+    .menuSubTable > .menuRow {
+        border-color: rgba(0,0,0,0.1);
+    }
+
+    .menuSubTable > .menuRow > .iconColumn > .menuIcon {
+        font-size: 25px;
+    }
+
+    .menuSubTable > .menuRow > .titleColumn > .menuTitle {
+        font-size: 14px;
+    }
+
+    .menuSubTable > .menuRow > .descColumn > .menuDesc {
+        font-size: 14px;
+    }
+
+    .menuSubTable > .menuRow > .statusColumn > .menuStatus {
+        font-size: 12px;
+    }
+
+    .menuSubTable > tr:first-child {
+        border-top: none;
+    }
+
+    .menuSubTable > tr:last-child {
+        border-bottom: none;
+    }
+
+/*#endregion sub table css*/
+
+/*#region shared table css*/
+.activeIconColumn {
+    min-width: 10px;
+    opacity: 0;
+}
+
+.iconColumn {
+    min-width: 45px;
+}
+
+.titleColumn {
+    min-width: 100px;
+}
+
+.descColumn {
+    min-width: 350px;
+}
+
+
+.statusColumn {
+    min-width: 100px;
+}
+
+.buttonColumn {
+    width: 100px;
+}
+
+tr.menuRow {
+    position: relative;
+    vertical-align: middle;
+    border: 2px solid #ccc;
+    border-left-width: 0px;
+    border-right-width: 0px;
+}
+    .menuRow[subsectionfollows] {
+        border-bottom: none;
+    }
+
+    .menuRow[subsectioncontainer] {
+        border-top: none;
+    }
+
+    .menuRow > td {
+        padding: 20px 5px;
+    }
+
+
+        .menuRow > td:first-child {
+            padding-left: 20px;
+        }
+
+    .menuRow > .activeIconColumn > .menuActiveIcon {
+        font-family: 'Material Icons';
+        font-style: normal;
+        font-size: 10px;
+        color: var(--tyl-amber);
+    }
+
+    .menuRow > .iconColumn > .menuIcon {
+        font-family: 'Material Icons';
+        font-style: normal;
+        color: var(--text-secondary);
+    }
+
+    .menuRow > .titleColumn > .menuTitle {
+        color: var(--text-secondary);
+    }
+
+    .menuRow > .descColumn > .menuDesc {
+        color: var(--text-secondary);
+    }
+
+    .menuRow > .statusColumn > .menuStatus {
+        color: var(--text-secondary);
+        font-style: italic;
+        padding: 5px 8px;
+        text-align: right;
+    }
+
+
+
+tr:first-child {
+    border-top: none;
+}
+
+tr:last-child {
+    border-bottom: none;
+}
+
+/*#endregion shared table css*/
+
+
+/*#endregion shared table css*/
+.menuButtonStart {
+    border: #3F51B5;
+    border-style: solid;
+    border-width: 2px;
+    padding: 5px 8px;
+    border-radius: 3px;
+    color: white;
+    background: #3F51B5;
+    font-weight: 500;
+    font-size: 14px;
+    text-transform: uppercase;
+    text-align: center;
+    cursor: pointer;
+    min-width: 70px;
+    line-height: 26px;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, .14), 0 3px 1px -2px rgba(0, 0, 0, .2), 0 1px 5px 0 rgba(0, 0, 0, .12);
+}
+
+.menuButtonEdited {
+    border: #3F51B5;
+    border-style: solid;
+    border-width: 2px;
+    padding: 5px 8px;
+    border-radius: 3px;
+    color: #3F51B5;
+    background: white;
+    font-weight: 500;
+    font-size: 14px;
+    text-transform: uppercase;
+    text-align: center;
+    cursor: pointer;
+    min-width: 70px;
+    line-height: 26px;
+}
+
+.menuButtonDisabled {
+    border: lightgray;
+    border-style: solid;
+    border-width: 2px;
+    padding: 5px 8px;
+    border-radius: 3px;
+    color: gray;
+    background: lightgray;
+    font-weight: 500;
+    font-size: 14px;
+    text-transform: uppercase;
+    text-align: center;
+    cursor: not-allowed;
+    min-width: 70px;
+    line-height: 26px;
+}
+
+/*#endregion button css*/
+
+/*Help Section*/
+.helpContainer {
+    height: 100%;
+    width: 100%;
+    position: relative;
+    z-index: 0;
+    margin: 0 auto;
+    padding-top: 10px;
+}
