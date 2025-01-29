@@ -297,7 +297,9 @@ class GuidedConversationMenu {
 
         menuStructure = this.buildMenuStructure(menu.heirarchy, menu.sections);
 
-        // to do - render menu
+        this.renderMenuStructure(menuTable, menuStructure);
+
+        this.setActiveSection(menuStructure);
 
     }
 
@@ -333,6 +335,202 @@ class GuidedConversationMenu {
             return sectionItem;
 
         }
+    }
+
+    private renderMenuStructure(menuTable: HTMLTableElement, menuStructure: Array<ISection>) {
+
+        var self = this;
+
+        for (var i = 0; i < menuStructure.length; i++) {
+            renderSection(menuStructure[i]);
+        }
+
+        function renderSection(section: ISection) {
+            var menuSection: HTMLTableRowElement;
+            var subSections: HTMLTableRowElement;
+
+            menuSection = self.buildSectionElement(section);
+            menuTable.appendChild(menuSection);
+
+            if (section.subSections !== undefined) {
+                subSections = renderSubSections(section.subSections);
+                menuTable.appendChild(subSections);
+            }
+            
+
+            function renderSubSections(sections: Array<ISection>): HTMLTableRowElement {                
+
+                var subTable: HTMLTableElement = createSubTable();
+                
+                for (var i = 0; i < sections.length; i++) {
+
+                    subTable.appendChild(self.buildSubSectionElement(sections[i]));
+
+                    if (sections[i].subSections !== undefined) {
+                        subTable.appendChild(renderSubSections(sections[i].subSections));
+                    }
+                }
+
+                return wrapSubTable(subTable);
+
+                function createSubTable(): HTMLTableElement {
+                    var subTable: HTMLTableElement = document.createElement('table');
+                    subTable.classList.add("menuSubTable");
+                    return subTable
+                }
+
+                function wrapSubTable(subTable: HTMLTableElement): HTMLTableRowElement {
+                    var subSections: HTMLTableRowElement = document.createElement('tr');
+                    subSections.classList.add("menuRow");
+                    subSections.setAttribute("subsectioncontainer", "true");
+
+                    var subTableCell: HTMLTableDataCellElement = document.createElement('td');
+                    subTableCell.colSpan = 4;
+                    subTableCell.classList.add("menuSubTableContainer");
+
+                    subSections.appendChild(document.createElement('td'));
+                    subSections.appendChild(document.createElement('td'));
+                    subTableCell.appendChild(subTable);
+                    subSections.appendChild(subTableCell);
+                    
+                    return subSections;
+                }
+
+            }
+        }
+
+    }
+
+    private buildSectionElement(section: ISection): HTMLTableRowElement {
+        var sectionElement: HTMLTableRowElement = document.createElement('tr');
+
+        sectionElement.classList.add("menuRow");
+        sectionElement.id = section.action;
+
+        // icon column
+        sectionElement.appendChild(this.generateActiveColumn(section));
+
+        // icon column
+        sectionElement.appendChild(this.generateIconColumn(section));
+
+        // title column
+        sectionElement.appendChild(this.generateTitleColumn(section));
+
+        if (!(section.subSections !== undefined)) {
+
+            // description column
+            sectionElement.appendChild(this.generatreDescColumn(section));
+
+            // status column
+            sectionElement.appendChild(this.generateStatusColumn(section));
+
+            // button column
+            sectionElement.appendChild(this.generateButtonColumn(section));
+
+        } else {
+            // colspan created an additional border for some reason...
+            //sectionElement.appendChild(this.generatePlaceholderColumn(3));
+            sectionElement.appendChild(document.createElement('td'));
+            sectionElement.appendChild(document.createElement('td'));
+            sectionElement.appendChild(document.createElement('td'));
+            sectionElement.setAttribute("subsectionfollows", "true"); 
+        }
+
+        return sectionElement;
+
+    }
+
+    private buildSubSectionElement(section: ISection): HTMLTableRowElement {
+
+        var subSectionElement: HTMLTableRowElement = document.createElement('tr');
+
+        subSectionElement.classList.add("menuRow");
+
+        //// icon column
+        //subSectionElement.appendChild(this.generateIconColumn(section));
+
+        // title column
+        subSectionElement.appendChild(this.generateTitleColumn(section));
+
+        if (!(section.subSections !== undefined)) {
+
+            // description column
+            subSectionElement.appendChild(this.generatreDescColumn(section));
+
+            // status column
+            subSectionElement.appendChild(this.generateStatusColumn(section));
+
+            // button column
+            subSectionElement.appendChild(this.generateButtonColumn(section));
+
+        } else {
+
+            // colspan created an additional border for some reason...
+            //subSectionElement.appendChild(this.generatePlaceholderColumn(3));
+            subSectionElement.appendChild(document.createElement('td'));
+            subSectionElement.appendChild(document.createElement('td'));
+            subSectionElement.appendChild(document.createElement('td'));
+            subSectionElement.setAttribute("subsectionfollows", "true"); 
+        }
+
+        return subSectionElement;
+
+    }
+
+    //private generatePlaceholderColumn(colspan: number): HTMLTableDataCellElement {
+    //    var placeholder: HTMLTableDataCellElement = document.createElement('td');
+    //    placeholder.colSpan = colspan;
+    //    return placeholder;
+    //}
+
+
+    private setActiveSection(menuStructure: Array<ISection>) {
+
+        var activeSection: ISection;
+
+        // take find required and make it
+
+        for (var i = 0; i < menuStructure.length; i++) {
+            if (findRequired([menuStructure[i]])) {
+                activeSection = menuStructure[i];
+                break;
+            }
+        }
+
+        if (activeSection === undefined) {
+            for (var i = 0; i < menuStructure.length; i++) {
+                if (findNext([menuStructure[i]])) {
+                    activeSection = menuStructure[i];
+                    break;
+                }
+            }
+        }
+
+        if (activeSection === undefined) {
+            activeSection = menuStructure[menuStructure.length - 1];
+        }
+
+
+        document.getElementById(activeSection.action).classList.add("active");
+
+        function findRequired(sections: Array<ISection>): boolean {
+            for (var i = 0; i < sections.length; i++) {
+                if ((sections[i].required && (sections[i].buttonState === "btn_start") && !sections[i].subSections) ||
+                    (sections[i].subSections && findRequired(sections[i].subSections)))
+                    return true;
+            }
+            return false;
+        }
+        function findNext(sections: Array<ISection>): boolean {
+            for (var i = 0; i < sections.length; i++) {
+                if ((sections[i].buttonState === "btn_start" && !sections[i].subSections) ||
+                    (sections[i].subSections && findNext(sections[i].subSections)))
+                    return true;
+            }
+            return false;
+        }
+            
+
     }
 }
 
